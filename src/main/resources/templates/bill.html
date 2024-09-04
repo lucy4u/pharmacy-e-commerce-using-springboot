@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+
+        h2 {
+            color: #4caf50;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #d0f0c0; /* Light green table color */
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+            font-size: 14px;
+            color: #333;
+        }
+
+        th {
+            background-color: #4caf50; /* Green header color */
+            color: #fff;
+            font-size: 16px;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tbody tr:hover {
+            background-color: #e0e0e0;
+        }
+
+        .buy-option {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .buy-button {
+            padding: 15px;
+            cursor: pointer;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+
+        .buy-button:hover {
+            background-color: #45a049;
+        }
+
+        .go-to-home {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            text-decoration: none;
+            color: #4caf50;
+            font-weight: bold;
+            font-size: 16px;
+        }
+    </style>
+    <title>Bill</title>
+</head>
+
+<body>
+    
+<a class="go-to-home"  th:if="${isAdmin}" th:href="@{/AdminHome}" data-title="Home">
+    <i class="mr-1 fa fa-home text-primary-m1 text-120 w-2"></i>
+    Home
+</a>
+<a class="go-to-home"  th:unless="${isAdmin}" th:href="@{/home}" data-title="Home">
+    <i class="mr-1 fa fa-home text-primary-m1 text-120 w-2"></i>
+    Home
+</a>
+<h2>Bill History</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Bill ID</th>
+            <th>Bill Date</th>
+            <!-- Add more columns as needed -->
+            <th>Action</th> <!-- Add a new column for the button -->
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Loop through bill history and display each row -->
+        <tr th:each="bill : ${billHistory}">
+            <td th:text="${bill.billId}"></td>
+            <td th:text="${bill.billDate}"></td>
+            <!-- Add more cells as needed -->
+            <td>
+                <!-- Add a button to view the details of the selected bill -->
+                <a th:href="@{/bill/{billId}(billId=${bill.billId})}" class="btn btn-primary">View Bill</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+
+
+</body>
+</html>

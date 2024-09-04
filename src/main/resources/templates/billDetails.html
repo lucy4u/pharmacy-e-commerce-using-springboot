@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Company Invoice - Bootdey.com</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <style type="text/css">
+        body {
+            margin-top: 20px;
+            color: #484b51;
+        }
+
+        .text-secondary-d1 {
+            color: #728299!important;
+        }
+
+        .page-header {
+            margin-bottom: 1rem;
+            padding-top: .5rem;
+            border-bottom: 1px dotted #e2e2e2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-title {
+            margin: 0;
+            font-size: 1.75rem;
+            font-weight: 300;
+        }
+
+        hr {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            border: 0;
+            border-top: 1px solid rgba(0, 0, 0, .1);
+        }
+
+        .text-95 {
+            font-size: 95%;
+        }
+
+        .text-blue-m2 {
+            color: #68a3d5!important;
+        }
+
+        .text-150 {
+            font-size: 150%!important;
+        }
+
+        .text-secondary-d1 {
+            color: #7b7d81!important;
+        }
+
+        .align-bottom {
+            vertical-align: bottom!important;
+        }
+
+        /* Styles for Bill Details Table */
+        .bill-details-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .bill-details-table th,
+        .bill-details-table td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .bill-details-table th {
+            background-color: #68a3d5;
+            color: #fff;
+        }
+
+        .bill-details-table tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-content container">
+        <div class="page-header text-blue-d2">
+            <h1 class="page-title text-secondary-d1">Invoice</h1>
+            <div class="page-tools">
+               <div class="btn-toolbar mt-2" role="toolbar" aria-label="Toolbar with button groups">
+    <a class="btn bg-white btn-light mx-1px text-95" href="#" data-title="Print" onclick="printPage()">
+        <i class="mr-1 fa fa-print text-primary-m1 text-120 w-2"></i>
+        Print
+    </a>
+<a class="btn bg-white btn-light mx-1px text-95" th:if="${isAdmin}" th:href="@{/AdminHome}" data-title="Home">
+    <i class="mr-1 fa fa-home text-primary-m1 text-120 w-2"></i>
+    Home
+</a>
+
+<a class="btn bg-white btn-light mx-1px text-95" th:unless="${isAdmin}" th:href="@{/home}" data-title="Home">
+    <i class="mr-1 fa fa-home text-primary-m1 text-120 w-2"></i>
+    Home
+</a>
+</div>
+            </div>
+        </div>
+
+        <div class="container px-0">
+            <div class="row mt-4">
+                <div class="col-12 col-lg-12">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="text-center text-150">
+                                <i class="fa fa-book fa-2x text-success-m2 mr-1"></i>
+                                <span class="text-default-d3">PHARMACY</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="row brc-default-l1 mx-n1 mb-4" />
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div>
+                                <span class="text-sm text-grey-m2 align-middle">To:</span>
+                                <span class="text-600 text-110 text-blue align-middle"><span th:if="${billViewDTO != null}" th:text="${billViewDTO.userName}"></span></span>
+                            </div>
+                            <div>
+            <span class="text-sm text-grey-m2 align-middle">Address:</span>
+            <span class="text-600 text-110 text-blue align-middle">
+                <span th:if="${not #lists.isEmpty(address)}">
+                    <span th:text="${address.street}"></span>,
+                    <span th:text="${address.city}"></span>,
+                    <span th:text="${address.state}"></span>
+                    <span th:text="${address.zipCode}"></span>
+                </span>
+            </span>
+        </div>
+                            <div class="text-grey-m2">
+                                <div class="my-1"></div>
+                                <div class="my-1"></div>
+                                <div class="my-1">
+                                   
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-95 col-sm-6 align-self-start d-sm-flex justify-content-end">
+                            <hr class="d-sm-none" />
+                            <div class="text-grey-m2">
+                                <div class="mt-1 mb-2 text-secondary-m1 text-600 text-125">Invoice</div>
+                                
+                                <div class="my-2">
+                                    <i class="fa fa-circle text-blue-m2 text-xs mr-1"></i>
+                                    <span class="text-600 text-90">Issue Date:</span> <span th:text="${billDetails[0].billDate}"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Inserted Bill Details Table -->
+                    <h2>Bill Details</h2>
+                    <table class="bill-details-table">
+                        <thead>
+                            <tr>
+                                <th>Medicine Name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Manufacturer</th>
+                                <th>Total Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="dto, iterStat : ${billDetails}" th:class="${iterStat.odd}? 'odd' : 'even'">
+                                <td th:text="${dto.medicineName}"></td>
+                                <td th:text="${dto.price}"></td>
+                                <td th:text="${dto.quantity}"></td>
+                                <td th:text="${dto.manufacturer}"></td>
+                                <td th:text="${dto.totalPrice}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- End of Bill Details Table -->
+
+                    <div class="row my-2 align-items-center bgc-primary-l3 p-2">
+                        <div class="col-7">Total Amount</div>
+                        <div class="col-5 text-right">
+                               <span class="text-150 text-success-d3 opacity-2" th:text="'₹' +${billDetails[0].grandTotal}"></span>
+                               
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div>
+                        <span class="text-secondary-d1 text-105">Thank you for your business</span>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    function printPage() {
+        window.print();
+    }
+</script>
+</body>
+</html>
+

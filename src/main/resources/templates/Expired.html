@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Deleted Medicines</title>
+   <style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: rgb(192, 192, 192); /* Set a really light grey background color */
+        margin: 0;
+        padding: 0;
+    }
+
+    h2 {
+        text-align: center;
+        color: #333; /* Set heading color */
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        border: 1px solid #ddd; /* Set border color */
+        padding: 8px;
+        text-align: left;
+        background-color: #eee; /* Set background color for table cells */
+    }
+
+    th {
+        background-color: #333; /* Set background color for heading */
+        color: #fff; /* Set text color for heading */
+    }
+
+    a {
+        display: block;
+        margin-top: 20px;
+        text-align: center;
+        text-decoration: none;
+        color: #333; /* Set link color */
+    }
+
+    a:hover {
+        color: #555; /* Set link color on hover */
+    }
+</style>
+</head>
+<body>
+
+<h2>Deleted Medicines</h2>
+
+<table>
+    <thead>
+    <tr>
+        <th>Serial</th>
+        <th>Name</th>
+        <th>Expiry Date</th>
+        <th>stocks</th>
+        <th>manufacturer</th>
+        <th>price</th>
+         <th>Wholesale rate</th>
+        <!-- Add other relevant columns as needed -->
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Iterate over the deleted medicines and display their details -->
+    <tr th:each="medicine : ${deletedMedicines}">
+        <td th:text="${medicine.serial}"></td>
+        <td th:text="${medicine.name}"></td>
+        <td th:text="${medicine.expiryDate}"></td>
+        <td th:text="${medicine.stocks}"></td>
+        <td th:text="${medicine.manufacturer}"></td>
+          <td th:text="${medicine.price}"></td>
+           <td th:text="${medicine.wholesaleRate}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Link to return to AdminHome -->
+<a th:href="@{/AdminHome}">Return to AdminHome</a>
+
+</body>
+</html>

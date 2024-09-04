@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        .container {
+            width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        p {
+            text-align: center;
+            color: #777;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="number"] {
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        hr {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border: 0;
+            border-top: 1px solid #ccc;
+        }
+
+        button[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .container.signin {
+            text-align: center;
+            color: #777;
+        }
+
+        .btn {
+            border: none;
+            background-color: inherit;
+            font-size: 16px;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .bar {
+            background-color: rgb(0, 128, 255);
+            margin-bottom: 4px;
+        }
+
+        .warning {
+            color: rgb(242, 240, 237);
+        }
+    </style>
+</head>
+<body>
+    <form th:object="${product}" method="post" th:action="@{'/products/' + ${product.serial}}">
+        <div class="bar">
+            <div>
+                <center>
+                   
+                        <h1 style="margin: 0%; text-align: center;">PHARMACY</h1>
+                    </button>
+                </center>
+            </div>
+        </div>
+
+        <div class="container">
+            <h1 style="text-align: center; color: rgb(0, 128, 255);"><u>EDIT MEDICINE</u></h1>
+            <p>edit Medicine Information </p>
+            <hr>
+
+            <!-- Hidden field for serial -->
+            <input type="hidden" th:field="*{serial}" />
+
+            <!-- Input fields for other properties -->
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" th:field="*{name}" id="name" required />
+            </div>
+
+            <div>
+                <label for="price">Price:</label>
+                <input type="number" th:field="*{price}" id="price" required />
+            </div>
+
+            <div>
+                <label for="stocks">Stocks:</label>
+                <input type="number" th:field="*{stocks}" id="stocks" required />
+            </div>
+
+            <div>
+                <label for="manufacturer">Manufacturer:</label>
+                <input type="text" th:field="*{manufacturer}" id="manufacturer" required />
+            </div>
+<div>
+                <label for="compound">Manufacturer:</label>
+                <input type="text" th:field="*{compound}" id="compound" required />
+            </div>
+             <div>
+                <label for="wholesale">wholesale Rate:</label>
+                <input type="number" th:field="*{wholesaleRate}" id="wholesale_rate" required />
+            </div>
+
+
+            <div>
+                <label for="manufactdate">Manufacture Date:</label>
+                <input type="date" th:field="*{manufactdate}" id="manufactdate" required />
+            </div>
+
+            <div>
+                <label for="expiryDate">Expiry Date:</label>
+                <input type="date" th:field="*{expiryDate}" id="expiryDate" required />
+            </div>
+
+            <button type="submit">Update</button>
+        </div>
+    </form>
+</body>
+</html>
+
